@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.23 AS builder
+FROM docker.io/alpine:3.24 AS builder
 
 # Download ttrss via git
 WORKDIR /var/www
@@ -71,7 +71,7 @@ RUN curl -sL https://github.com/TonyRL/tt-rss-feedly-theme/archive/dist.tar.gz |
   curl -sL https://github.com/Gravemind/tt-rss-feedlish-theme/archive/master.tar.gz | \
   tar xzvpf - --strip-components=1 --wildcards -C . tt-rss-feedlish-theme-master/feedlish*.css
 
-FROM docker.io/alpine:3.23
+FROM docker.io/alpine:3.24
 
 LABEL maintainer="Henry<hi@henry.wang>"
 
@@ -94,7 +94,7 @@ ENV FEED_LOG_QUIET=false
 # Open up ports to bypass ttrss strict port checks, USE WITH CAUTION
 ENV ALLOW_PORTS="80,443"
 
-ENV PHP_SUFFIX=84
+ENV PHP_SUFFIX=85
 
 WORKDIR /var/www
 
@@ -107,7 +107,7 @@ COPY src/s6/ /etc/s6/
 # Install dependencies
 RUN set -ex \
   && chmod -x /wait-for.sh && chmod -x /docker-entrypoint.sh \
-  && PHP_PACKAGES="fpm ctype curl dom exif fileinfo gd iconv intl json mbstring opcache \
+  && PHP_PACKAGES="fpm ctype curl dom exif fileinfo gd iconv intl json mbstring \
   openssl pcntl pdo pdo_pgsql pecl-apcu phar posix session simplexml sockets sodium tokenizer xml xmlwriter zip \
   gmp pecl-imagick" \
   && EXT_LIST="" \
